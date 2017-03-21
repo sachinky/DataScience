@@ -1,0 +1,51 @@
+Suvayu Ali
+
+
+Table of Contents
+─────────────────
+
+1 Problem statement
+2 Data
+3 Goal
+
+
+1 Problem statement
+═══════════════════
+
+  We want to categorise various e-commerce products into a multilevel
+  category tree.  The product categories are useful when we want to do
+  market projections, our daily operations need it when deciding on
+  allowed routes (certain items like active power sources, or liquids,
+  are not airworthy), etc.
+
+
+2 Data
+══════
+
+  We have provided product titles along with their top level categories.
+  Product titles can be found in product_title.txt, while label.txt
+  contains the corresponding numeric representations of the categories.
+
+
+3 Goal
+══════
+
+  The aim of this assignment is to implement a classifier (something
+  that you can do in half a week) which if given a new product title,
+  can predict the category of the new product (confidence scores, etc
+  are optional).  You are free to use any open source tool or library in
+  any language, however, if you use Python, or R, evaluating your
+  solution is easier for us; Java or C++ is also fine.  If you may make
+  assumptions in your solution, we expect you to justify them.
+
+  Apart from the code, you are expected to write a report on all the
+  steps necessary to solve the problem (not limited to your
+  implementation above, but in a more general scope), including
+  pre-processing of data and other transformations.  You may also
+  include other possible approaches for solving the product
+  categorisation problem along with the pros and cons of each approach
+  you mention.
+
+  As a second part of the problem, we expect you to propose ways how we
+  can extend the solution to multilevel categorisation.  Please discuss
+  this proposal in some detail in your report.
