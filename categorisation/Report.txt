@@ -1,0 +1,36 @@
+
+
+Preprocessing steps:
+-Tokenizing the data
+-Removing special characters
+
+Creating features:
+-Term frequency (Unigram and bigram)
+-Idf (Inverse document frequency)
+
+Training diffrent classifier models:
+-Naive Bayes
+-SVM
+
+Using SVM 5 fold cross validation
+
+------------------------------------------
+ precision	recall		f1-score
+------------------------------------------
+   0.86	         0.86		 0.85 
+
+
+Challenges:
+-----------
+Data imbalance among different classes. Few categories have very few instances.
+
+Multilevel Categorization:
+--------------------------
+We can use the above trained classifier to do categorization of products for primary level (given lebels).
+To categorize items in subcategory (child) level or supercategory (parent) level as follows:
+
+1. For subcategory, we can do k-means clustering, based on tf-idf features of token vector, for each primary category. To find optimal k for each category we can use elbow method and name the subcategory based most common set of tokens in it.
+
+2. Similarly, for supercategory, we can do k-means clustering on tf-idf features by hoosing a value of k lower than number of primary classes.
+
+3. We can also use LDA (Latent Dirichlet Allocation) and LSA(Latent Semantic Analysis) for for above tasks. 

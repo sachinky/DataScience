@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import Imputer
 from sklearn  import preprocessing
-train=pd.read_csv('/home/sky/Documents/case_study/training.csv',index_col=23)
-test=pd.read_csv('/home/sky/Documents/case_study/testingCandidate.csv',index_col=21)
+train=pd.read_csv('training.csv',index_col=23)
+test=pd.read_csv('testingCandidate.csv',index_col=21)
 
 
 response=train['responded']
@@ -84,7 +84,7 @@ Y_train=le.fit_transform(response)
 
 from sklearn.decomposition import PCA
 #PCA
-pca = PCA(n_components=15).fit(X_train)
+pca = PCA(n_components=18).fit(X_train)
 X_train = pca.transform(X_train)
 X_test = pca.transform(X_test)
 
@@ -112,7 +112,7 @@ from sklearn.svm import SVC
 SVMclf=SVC(kernel='rbf',C=0.1)
 
 #SGB
-grd = GradientBoostingClassifier(n_estimators=20)
+grd = GradientBoostingClassifier(n_estimators=50)
 
 
 LRscores=cross_val_score(log,X_train,Y_train,cv=5)
@@ -121,7 +121,11 @@ RFscores=cross_val_score(RFclf,X_train,Y_train,cv=5)
 SVMscores=cross_val_score(SVMclf,X_train,Y_train,cv=5)
 SGBscores=cross_val_score(grd,X_train,Y_train,cv=5)
 print LRscores.mean(),GNBscores.mean(),RFscores.mean(),SVMscores.mean(),SGBscores.mean()
+print LRscores.var(),GNBscores.var(),RFscores.var(),SVMscores.var(),SGBscores.var()
 
+
+grd.fit(X_train,Y_train)
+Y_market=grd.predict(X_test)
 
 
 Y_res=Y_train.nonzero()
@@ -138,3 +142,36 @@ LRscores=cross_val_score(lr,X_train_pro,Y_train_pro,cv=5)
 print LRscores.mean()
 
 
+Y_test_res=Y_market.nonzero()
+X_test_pro = X_test[Y_test_res]
+
+
+
+lr.fit(X_train_pro,Y_train_pro)
+
+Y_test_pred=lr.predict(X_test_pro)
+
+Y_test_all= Y_test_pred-70
+
+Y_test_pro=Y_test_all>0
+Y_test_all=Y_test_all[Y_test_pro]
+Y_test_market= le.fit_transform(Y_test_pro)
+
+Y_test_index=Y_test_market.nonzero()
+Y_test_index
+
+Y_test_res_array=(np.asarray(Y_test_res[0]))
+Y_final_index=( Y_test_res_array[Y_test_index])
+Y_test_output=np.zeros(Y_market.shape[0])
+Y_test_output[Y_final_index]=1
+Y_test_output=np.reshape(Y_test_output,(Y_market.shape[0],1),1)
+
+profit= Y_test_output.sum()*(Y_test_all.mean()-70)
+print profit
+
+
+test_org=pd.read_csv('testingCandidate.csv',index_col=21)
+test_org['market']=Y_test_output
+test_org.head()
+
+test_org.to_csv('output.csv',header =True)
